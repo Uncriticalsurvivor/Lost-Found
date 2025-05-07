@@ -1,0 +1,556 @@
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+    font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.custom-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.checkmark {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #2d7ff9;
+    border-color: #2D7FF9;
+}
+.checkmark:after {
+    content: "";
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+.custom-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e2e8f0;
+    transition: .4s;
+    border-radius: 24px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #2D7FF9;
+}
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+.custom-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: #e2e8f0;
+    outline: none;
+}
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2D7FF9;
+    cursor: pointer;
+}
+.custom-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2D7FF9;
+    cursor: pointer;
+    border: none;
+}
+.custom-radio {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.radio-mark {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-radio input:checked ~ .radio-mark {
+    border-color: #2D7FF9;
+}
+.radio-mark:after {
+    content: "";
+    display: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2D7FF9;
+}
+.custom-radio input:checked ~ .radio-mark:after {
+    display: block;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#loginForm {
+    background: white;
+    padding: 40px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#Login_name {
+    font-size: 35px;
+    margin-bottom: 20px;
+    margin-top: 13%;
+}
+
+#register_form{
+    background: white;
+    padding: 40px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#Register_name {
+    font-size: 35px;
+    margin-bottom: 20px;
+    margin-top: 9%;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+h2 {
+    font-family: poppins;
+    font-weight: 600;
+}
+
+#registerform {
+    margin-top: 20px;
+}
+
+
+@media screen and (max-width: 600px) {
+    #loginForm {
+        width: 90%;
+    }
+}
+
+/* CSS extracted from report.html */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+nav {
+  background-color: #2d7ff9;
+  color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 63rem;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+h4 {
+  color: white;
+  font-size: 1em;
+}
+
+h4 a {
+  color: white;
+  text-decoration: none;
+}
+
+h4 a:hover {
+  text-decoration: underline;
+  opacity: 50%;
+}
+
+#report {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#reportForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+  
+form label, b {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+form select, form input, form textarea {
+  width: 80%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 1em;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.success-message {
+  display: none;
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+}
+
+h2 {
+  color: #000;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 2.2em;
+}
+
+#body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+#search {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+    text-align: left;
+}
+.item {
+    background: #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+nav {
+    background-color: #2d7ff9;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    gap: 63rem;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+h4{
+    color: white;
+    font-size: 1em;
+}
+h4 a {
+    color: white;
+    text-decoration: none;
+}
+h4 a:hover {
+    text-decoration: underline;
+   opacity: 50%;
+}
+h2 {
+    color: #000000;
+    margin-bottom: 40px;
+    font-family: poppins;
+    font-weight: 600;
+    font-size: 2.2em;
+}
+@media screen and (max-width: 768px) {
+    #search {
+        width: 90%;
+    }
+    input, select {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+    nav{
+        flex-direction: row;
+        gap: 12rem;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+  #report {
+    width: 90%;
+  }
+
+  nav {
+    flex-direction: row;
+    gap: 12rem;
+  }
+}
+
+#search {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.item {
+    background: #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    background-color: #2d7ff9;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    gap: 63rem;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+
+h4 {
+    color: white;
+    font-size: 1em;
+}
+
+h4 a {
+    color: white;
+    text-decoration: none;
+}
+
+h4 a:hover {
+    text-decoration: underline;
+    opacity: 50%;
+}
+
+h2 {
+    color: #000000;
+    margin-bottom: 40px;
+    font-family: poppins;
+    font-weight: 600;
+    font-size: 2.2em;
+}
+
+#item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#home_button {
+    margin-left: 15%;
+    font-size: 20px;
+}
+
+#lost_found{
+    font-size: 20px;
+    padding-top: 13px;
+}
+
+#statusFilter {
+    font-size: 20px;
+    padding-top: 13px;
+    width: 62%;
+}
+
+#searchInput {
+    font-size: 20px;
+    padding-top: 13px;
+    width: 60%;
+}
+
+#search_button {
+    font-size: 20px;
+    padding-top: 13px;
+    width: 20%;
+}
+
+@media screen and (max-width: 768px) {
+    #search {
+        width: 90%;
+    }
+    input, select {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+    nav {
+        flex-direction: row;
+        gap: 12rem;
+    }
+}

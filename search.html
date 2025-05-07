@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Lost & Found Items</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <nav>
+        <h1 id="lost_found">Lost & Found</h1>
+        <h4 id="home_button"><a href="index.html">Home</a></h4>
+    </nav>
+
+    <section id="search">
+        <h2>Search for Lost or Found Items</h2>
+        <input type="text" id="searchInput" placeholder="Search by item name or location...">
+        <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+        </select>
+        </br><button onclick="searchItems()" id="search_button">Search</button>
+        <div id="results"></div>
+    </section>
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6HqxlRNFc0LpxeZolb0wX6TEH-ahu_Jw",
+            authDomain: "losttiandfoundy.firebaseapp.com",
+            projectId: "losttiandfoundy",
+            storageBucket: "losttiandfoundy.appspot.com",
+            messagingSenderId: "818017470390",
+            appId: "1:818017470390:web:4bda05f2aa4367a9dfe317",
+            measurementId: "G-TN5RW5NYP4"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Search Items
+        function searchItems() {
+            let searchInput = document.getElementById("searchInput").value.toLowerCase();
+            let statusFilter = document.getElementById("statusFilter").value;
+            let resultsDiv = document.getElementById("results");
+
+            console.log("Search input:", searchInput);
+            console.log("Status filter:", statusFilter);
+
+            // Get items from Firestore
+            db.collection("lostAndFoundReports")
+                .get()
+                .then((querySnapshot) => {
+                    let filteredItems = [];
+                    console.log("Found items in Firestore:", querySnapshot.size);
+
+                    querySnapshot.forEach((doc) => {
+                        let item = doc.data();
+                        console.log("Item data:", item);
+
+                        // Map fields to match the current Firestore structure
+                        let itemName = item.item ? item.item.toLowerCase() : '';
+                        let itemLocation = item.location ? item.location.toLowerCase() : '';
+                        let itemStatus = item.itemStatus ? item.itemStatus.toLowerCase() : 'unknown';
+                        let itemContact = item.reporterEmail ? item.reporterEmail : 'Unknown';
+
+                        // Filter items based on search and status
+                        if ((itemName.includes(searchInput) || itemLocation.includes(searchInput)) &&
+                            (statusFilter === "all" || itemStatus === statusFilter.toLowerCase())) {
+                            filteredItems.push(item);
+                        } else {
+                            // Log missing fields for debugging
+                            if (!item.item || !item.location || !item.itemStatus || !item.reporterEmail) {
+                                console.log("Missing fields in document:", doc.id, item);
+                            }
+                        }
+                    });
+
+                    // Display Results
+                    resultsDiv.innerHTML = "";
+                    if (filteredItems.length > 0) {
+                        filteredItems.forEach(item => {
+                            resultsDiv.innerHTML += `
+                                <div class='item'>
+                                    <strong>${item.item}</strong> (${item.itemStatus ? item.itemStatus.toUpperCase() : "Unknown"})<br>
+                                    Location: ${item.location}<br>
+                                    Contact: ${item.reporterEmail ? item.reporterEmail : "Unknown"}
+                                </div>
+                            `;
+                        });
+                    } else {
+                        resultsDiv.innerHTML = "<p>No matching items found.</p>";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error getting documents: ", error);
+                    resultsDiv.innerHTML = "<p>Error loading items. Please try again later.</p>";
+                });
+        }
+    </script>
+</body>
+</html>

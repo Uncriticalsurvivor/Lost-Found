@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lost & Found - Campus Connect</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#2D7FF9', secondary: '#FF8A47' },
+                    borderRadius: {
+                        none: '0px',
+                        sm: '4px',
+                        DEFAULT: '8px',
+                        md: '12px',
+                        lg: '16px',
+                        xl: '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        full: '9999px',
+                        button: '8px',
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Firebase SDK -->
+    <!-- Firebase v8 compatible with your existing code -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6HqxlRNFc0LpxeZolb0wX6TEH-ahu_Jw",
+            authDomain: "losttiandfoundy.firebaseapp.com",
+            projectId: "losttiandfoundy",
+            storageBucket: "losttiandfoundy.appspot.com",
+            messagingSenderId: "818017470390",
+            appId: "1:818017470390:web:4bda05f2aa4367a9dfe317",
+            measurementId: "G-TN5RW5NYP4"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        // Check if the user is logged in
+            auth.onAuthStateChanged((user) => {
+                const navbarAuth = document.getElementById('navbar-auth');
+                const signIn = document.getElementById('sign-in');
+                const userNameDisplay = document.getElementById('user-name-display');
+                
+                if (user) {
+                    // User is signed in
+                    navbarAuth.style.display = 'flex';
+                    signIn.style.display = 'none';
+                    if (userNameDisplay) {
+                        userNameDisplay.textContent = user.displayName || user.email || "User";
+                    }
+                } else {
+                    // User is not signed in
+                    navbarAuth.style.display = 'none';
+                    signIn.style.display = 'flex';
+                }
+            });
+        
+            // Sign out function
+            function signOut() {
+                auth.signOut().then(() => {
+                    alert('Signed out!');
+                    window.location.href = "login.html";
+                }).catch((error) => {
+                    console.error(error.message);
+                });
+            }
+            window.signOut = signOut; // Expose signOut function to global scope
+    </script>
+    <link rel="stylesheet" href="styles.css" />    
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="font-['Pacifico'] text-2xl text-primary">Hide & Seek: Item Edition</a>
+            <div class="hidden md:flex items-center space-x-8" id="navbar-auth">
+                <a href="#" class="text-gray-900 font-medium hover:text-primary transition-colors">Home</a>
+                <a href="learn.html" class="text-gray-600 hover:text-primary transition-colors">Learn</a>
+                <a href="report.html" class="text-gray-600 hover:text-primary transition-colors">Report</a>
+                <a href="search.html" class="text-gray-600 hover:text-primary transition-colors">Search</a>
+                <a href="chatbot.html" class="text-gray-600 hover:text-primary transition-colors">Chatbot</a>
+                <span id="user-name-display" class="text-gray-900 font-medium"></span>
+                <button class="bg-primary text-white px-5 py-2 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap inline-block text-center" onclick="signOut()">Sign Out</button>
+            </div>
+            <div class="md:hidden flex items-center space-x-4" id="sign-in">
+                <a href="login.html" class="bg-primary text-white px-5 py-2 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap inline-block text-center">Sign In</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/40" style="z-index: 1"></div>
+        <div class="absolute inset-0" style="background-image: url('https://readdy.ai/api/search-image?query=A%20modern%2C%20clean%20illustration%20showing%20various%20lost%20and%20found%20items%20such%20as%20keys%2C%20wallet%2C%20phone%2C%20laptop%2C%20backpack%2C%20water%20bottle%2C%20and%20headphones%20arranged%20in%20an%20organized%20way%20with%20soft%20shadows%20and%20a%20light%20blue%20background.%20The%20items%20should%20be%20illustrated%20in%20a%20minimalist%20style%20with%20clean%20lines%20and%20soft%20colors.%20The%20background%20should%20be%20very%20light%20and%20subtle%2C%20allowing%20the%20items%20to%20stand%20out.&width=1600&height=800&seq=1&orientation=landscape'); background-size: cover; background-position: right center;"></div>
+
+        <div class="container mx-auto px-4 py-20 md:py-28 relative" style="z-index: 2">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Find What's Lost, Return What's Found</h1>
+                <p class="text-lg text-gray-700 mb-8">
+                    The easiest way for college students to recover lost items and return found belongings. Our platform connects the campus community through a simple, efficient lost and found system.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="report.html" class="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap flex items-center justify-center inline-flex">
+                        <i class="ri-search-line mr-2"></i> Report Lost Item
+                    </a>
+                    <a href="search.html" class="bg-white border border-gray-300 text-gray-800 px-6 py-3 !rounded-button font-medium hover:bg-gray-50 transition-colors whitespace-nowrap flex items-center justify-center inline-flex">
+                        <i class="ri-eye-line mr-2"></i> Search Found Items
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

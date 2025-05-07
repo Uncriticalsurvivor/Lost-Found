@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Virtual Assistant</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+</head>
+<body>
+  <nav class="bg-blue-500 text-white p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">Lost & Found</div>
+    <a href="index.html" class="text-white hover:text-gray-200">Home</a>
+  </nav>
+
+  <div id="bot" class="w-50 h-50 flex justify-center items-center">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+    <spline-viewer 
+      loading-anim-type="none" 
+      url="https://prod.spline.design/YvbeQ9SKMBADyWBx/scene.splinecode" 
+      class="invisible h-full w-full fixed">
+    </spline-viewer>
+  </div>
+
+  <div id="box">
+    <p style="color: rgb(19, 19, 19); margin-bottom: 10px;">
+      Hello! I am your virtual assistant. <br>
+      I can help you with a variety of tasks such as answering questions, providing information, and assisting with problem-solving. <br>
+      Please interact with me using the chat below.
+    </p>
+
+    <!-- Embed Dialogflow Messenger -->
+    <div class="flex justify-center mt-4">
+      <df-messenger
+        intent="WELCOME"
+        chat-title="Virtual Assistant"
+        agent-id="f839b89e-a564-407b-a074-e526e6abd2f5"
+        language-code="en">
+      </df-messenger>
+    </div>
+  </div>
+
+  <style>
+    #box {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    #bot {
+      position: absolute;
+      top: 18%;
+      left: 13%;
+      width: 300px;
+      height: 300px;
+    }
+
+    @media screen and (max-width: 600px) {
+      #box {
+        width: 90%;
+        height: auto;
+        top: 55%;
+        left: 55%;
+        transform: translate(0, -50%);
+      }
+
+      #bot {
+        top: -1px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  </style>
+
+  <!-- Dialogflow Messenger SDK -->
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+</body>
+</html>

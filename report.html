@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Lost/Found Item</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Firebase SDKs (MODULAR v9+) -->
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6HqxlRNFc0LpxeZolb0wX6TEH-ahu_Jw",
+      authDomain: "losttiandfoundy.firebaseapp.com",
+      projectId: "losttiandfoundy",
+      storageBucket: "losttiandfoundy.appspot.com",
+      messagingSenderId: "818017470390",
+      appId: "1:818017470390:web:4bda05f2aa4367a9dfe317",
+      measurementId: "G-TN5RW5NYP4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+
+    // Form submission
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("reportForm");
+      const successMsg = document.getElementById("successMessage");
+
+      // Check if the user is authenticated before submitting
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          alert("❌ You must be logged in to submit a report.");
+          form.querySelector("button").disabled = true; // Disable form submission if not logged in
+        }
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        // Get report data
+        const reportData = {
+          reporterName: document.getElementById("reporterName").value,
+          reporterEmail: document.getElementById("reporterEmail").value,
+          reporterPhone: document.getElementById("reporterPhone").value,
+          itemStatus: document.getElementById("itemStatus").value,
+          item: document.getElementById("itemName").value,
+          description: document.getElementById("description").value,
+          date: document.getElementById("date").value,
+          location: document.getElementById("location").value
+        };
+
+        console.log("Report Data:", reportData); // Log data before submitting
+
+        let imageUrl = '';
+
+        const imageFile = document.getElementById("image").files[0];
+        if (imageFile) {
+          try {
+            console.log("Uploading image:", imageFile.name); // Log image name
+            const storageRef = ref(storage, "lost-and-found/" + imageFile.name);
+            await uploadBytes(storageRef, imageFile);
+            imageUrl = await getDownloadURL(storageRef);
+            console.log("Image uploaded successfully, URL:", imageUrl); // Log image URL after upload
+          } catch (err) {
+            console.error("Image upload failed:", err); // Log error if image upload fails
+            alert("❌ Image upload failed.");
+            return;
+          }
+        } else {
+          console.log("No image selected"); // Log if no image is selected
+        }
+
+        try {
+          await addDoc(collection(db, "lostAndFoundReports"), {
+            ...reportData,
+            imageUrl,
+            timestamp: serverTimestamp()
+          });
+
+          console.log("Report submitted successfully"); // Log success
+          successMsg.innerText = "✅ Report submitted successfully!";
+          successMsg.style.display = "block";
+          form.reset();
+
+          setTimeout(() => {
+            successMsg.style.display = "none";
+            window.location.href = "index.html";
+          }, 3000);
+        } catch (error) {
+          console.error("Error saving report to Firestore:", error.message); // Log error if Firestore submission fails
+          alert(`❌ Failed to submit report. Error: ${error.message}`);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <nav>
+    <h1>Lost & Found</h1>
+    <h4 id="home_button"><a href="index.html">Home</a></h4>
+  </nav>
+
+  <section id="report">
+    <h2>Report a Lost or Found Item</h2>
+    <form id="reportForm">
+      <b>Enter your name:</b>
+      <input type="text" id="reporterName" name="reporterName" required />
+
+      <b>Enter your email:</b>
+      <input type="email" id="reporterEmail" name="reporterEmail" required />
+
+      <b>Enter your phone number:</b>
+      <input type="tel" id="reporterPhone" name="reporterPhone" required />
+
+      <label for="itemStatus">Item Status:</label>
+      <select id="itemStatus" name="itemStatus" required>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+
+      <label for="itemName">Item Name:</label>
+      <input type="text" id="itemName" name="itemName" required />
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="date">Date Lost/Found:</label>
+      <input type="date" id="date" name="date" required />
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" required />
+
+      <label for="image">Upload Image:</label>
+      <input type="file" id="image" name="image" accept="image/*" />
+
+      <button type="submit">Submit Report</button>
+    </form>
+
+    <p class="success-message" id="successMessage" style="display: none;">✅ Report submitted successfully!</p>
+  </section>
+</body>
+</html>

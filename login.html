@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2 id="Login_name">Login</h2>
+    <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p>If you don't have an account, <a href="register.html">Register here</a></p>
+
+    <script type="module">
+        // Import the required functions from Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+      
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyB6HqxlRNFc0LpxeZolb0wX6TEH-ahu_Jw",
+          authDomain: "losttiandfoundy.firebaseapp.com",
+          projectId: "losttiandfoundy",
+          storageBucket: "losttiandfoundy.appspot.com",
+          messagingSenderId: "818017470390",
+          appId: "1:818017470390:web:4bda05f2aa4367a9dfe317",
+          measurementId: "G-TN5RW5NYP4"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);  // Get the auth object
+      
+        // Login form submission handling
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+      
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+      
+          // Authenticate using Firebase
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              // Logged in successfully
+              alert("Login successful!");
+              window.location.href = "index.html";  // Redirect to the home page
+            })
+            .catch((error) => {
+              // Handle error
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert("Login failed: " + errorMessage);
+            });
+        });
+      </script>
+</body>
+</html>

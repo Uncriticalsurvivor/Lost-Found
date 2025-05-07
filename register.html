@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h2 id="Register_name">Register</h2>
+  <form id="register_form">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required />
+    <input type="number" id="studentId" placeholder="Student ID" required />
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="login.html">Login here</a></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6HqxlRNFc0LpxeZolb0wX6TEH-ahu_Jw",
+      authDomain: "losttiandfoundy.firebaseapp.com",
+      projectId: "losttiandfoundy",
+      storageBucket: "losttiandfoundy.appspot.com",
+      messagingSenderId: "818017470390",
+      appId: "1:818017470390:web:4bda05f2aa4367a9dfe317",
+      measurementId: "G-TN5RW5NYP4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    document.getElementById("register_form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const phone = document.getElementById("phone").value.trim();
+      const studentId = document.getElementById("studentId").value.trim();
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        console.log("User created:", user.uid);
+
+        await setDoc(doc(db, "users", user.uid), {
+          name,
+          email,
+          phone,
+          studentId
+        });
+
+        alert("Registration successful!");
+        window.location.href = "login.html";
+      } catch (error) {
+        console.error("Registration error:", error);
+        if (error.code === "auth/email-already-in-use") {
+          alert("Email already in use. Try logging in.");
+        } else if (error.code === "permission-denied") {
+          alert("You do not have permission to write to the database. Check Firestore rules.");
+        } else {
+          alert("Registration failed: " + error.message);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
